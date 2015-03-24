@@ -21,7 +21,7 @@
     "express-flash": "0.0.2",
     "express-session": "~1.0.0",
     "method-override": "~1.0.0",
-    "mongodb": "*",
+    "mongodb": "2.0.x",
     "mongoose": "*",
     "mongoskin": "*",
     "morgan": "~1.0.0",
