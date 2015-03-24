@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <% include partials/head %>
+</head>
+
+<nav class="top-bar" data-topbar role="navigation">
+    <ul class = "title-area">
+        <li class="name">
+            <h1><a href="/"><span class="emph">Opera</span>tor</a></h1>
+        </li>
+        <li class="toggle-topbar menu-icon"<a href="#"><span>Menu</span></a></li>
+    </ul>
+    <!--Right Nav of top bar-->
+    <section class = "top-bar-section">
+        <ul class = "right">        
+            <% include partials/headerauth %>
+        </ul>
+    </section>
+</nav>
+
+<body>
+    <%
+    if (steps) {
+        if (steps.indexOf(1) > -1) {  %>
+            <% include partials/up1.ejs %>
+        <% }
+        if (steps.indexOf(2) > -1) {  %>
+            <% include partials/up2.ejs %>
+        <% }
+        if (steps.indexOf(3) > -1) {  %>
+            <% include partials/up3.ejs %>
+        <% }
+        if (steps.indexOf(4) > -1) {  %>
+            <% include partials/up4.ejs %>
+        <% }
+        if (steps.indexOf(5) > -1) {  %>
+            <% include partials/up5.ejs %>
+        <% }  
+    } 
+    %>
+    
+
+    <% include partials/bodyscripts %> 
+
+    <% include partials/footer %> 
+</body>
+
+</html>

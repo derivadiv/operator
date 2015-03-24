@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+
+<% 
+if (rec.type == 'YouTube') { 
+	var fullurl="https://www.youtube.com/embed/"+rec.url+"?autoplay=1&enablejsapi=1&version=3&playerapiid=ytplayer";%>
+	<iframe id="ytplayer" type="text/html" width="640" height="390" src=<%=fullurl%> frameborder="0"> </iframe>
+<% } else { %>
+	<audio controls>
+		<source src=<%=rec.filename%> type=<%=rec.type%>>
+		Your browser, Opera or not, doesn't want to play this song. :(
+	</audio>
+<%} %>
+
+</html>	
+
+<!--    
+html5-progress-bar ytp-force-transform red is the classname
+get aria-valuemax,  aria-valuenow
+-->

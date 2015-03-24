@@ -1,0 +1,234 @@
+<html>
+<head><% include partials/head %></head>
+
+<nav class="top-bar" data-topbar role="navigation">
+    <ul class = "title-area">
+        <li class="name">
+            <h1><a href="/"><span class="emph">Opera</span>tor</a></h1>
+        </li>
+        <li class="toggle-topbar menu-icon"<a href="#"><span>Menu</span></a></li>
+    </ul>
+    <!--Right Nav of top bar-->
+    <section class = "top-bar-section">
+        <ul class = "right">        
+            <% include partials/headerauth %>
+        </ul>
+    </section>
+</nav>
+
+<body>
+<div class="content">
+    <form action="/upload" method="post" data-abide>
+    <fieldset>
+    <legend>Song Identifiers (required)</legend>    
+        <fieldset>
+        <legend>Song Information</legend>
+        <div class="row">
+            <div class="large-10 columns">
+                <label>Song Title <small>required</small></label>
+                <input type="text" name="title" class="forminput" placeholder="Type title of song or aria here, ex. O mio babbino caro" required>
+                <small class="error">Song title is required.</small>
+            </div>
+            <div class="large-10 columns">
+                  <label>Type of Song:   </label>
+                  <% 
+                    var songtypes = ['Aria','Art Song','Recitative','Duet','Ensemble','Other'];
+                    for (var s in songtypes) {
+                    %>
+                    <input type="radio" name="songtype" class="forminput" value=<%=songtypes[s]%> id="songtype<%=songtypes[s]%>"><label for="songtype<%=songtypes[s]%>"><%=songtypes[s]%></label>
+                    <% } %>
+            </div>          
+        </div>
+        </fieldset>
+
+        <fieldset>
+        <legend>Composer Name</legend>
+        <div class="row">
+            <div class="small-8 columns">
+                <label>First Name <small>required</small>
+                    <input type="text" name="composerfirst" class="forminput"  required pattern="[a-zA-Z]+">
+                </label>
+                <small class="error">Composer first name is required and can only have letters in it.</small>
+            </div>
+            <div class="small-2 columns">
+                <label>Middle
+                    <input type="text" name="composermiddle" class="forminput">
+                </label>    
+            </div>
+            <div class="small-8 columns">
+                <label>Last Name <small>required</small>
+                    <input type="text" name="composerlast" class="forminput" required pattern="[a-zA-Z]+">
+                </label>    
+                <small class="error">Composer last name is required and can only have letters in it.</small>
+            </div>
+            <div class="small-2 columns">
+                <label>Suffix
+                    <input type="text" name="composersuffix" class="forminput" placeholder="ex. Jr., II">
+                </label>
+            </div>
+        </div>
+        </fieldset>
+
+        <fieldset>
+        <legend>Work that the song is from</legend>
+        <div class="row">
+            <div class="large-6-columns">
+                <label>Work Title <small>required</small></label>
+                <input type="text" name="work" class="forminput" placeholder="ex. Opera title, or title of song collection">
+                <small class="error">Song title is required.</small>
+            </div>
+            <div class="small-2-columns">
+                <label>Year composed
+                <input type="text" name="date" class="forminput" placeholder="YYYY format" pattern="\d\d\d\d">
+                </label>
+                <small class="error">If entered, year composed must have four digits.</small>
+            </div>
+            <div class="small-2-columns">
+                <label>Genre:</label> 
+                <% 
+                var genres = ['Opera','Operetta','Oratorio','Song cycle','Collection','Other'];
+                for (var g in genres) {
+                %>
+                    <input type="radio" name="genre" class="forminput" value=<%=genres[g]%> id="genre<%=genres[g]%>"><label for="genre<%=genres[g]%>"><%=genres[g]%></label>
+                <% } %>
+                
+            </div>
+        </div>
+        </fieldset>
+    </fieldset>
+
+    <fieldset>
+        <legend>Song Lyrics (source language):</legend>
+        
+        <div class="row">
+            <div class="small-4-columns">
+                <label>Original Language: 
+                    <select name="language">
+                        <% 
+                        var langs = ['Italian','German','French','English','Russian','Norwegian','Spanish','Czech','Other'];
+                        for (var l in langs) {
+                        %>
+                            <option value=<%=langs[l]%>><%=langs[l]%></option>
+                        <% } %>
+                    </select>
+                </label>
+            </div>
+            <div class="small-2-columns">
+                <label>Lyrics Source
+                <input type="text" name="creditslyrics" class="forminput" placeholder="Cite your source with a URL, book title, etc."></label>
+            </div>
+            <div class="large-2-columns">
+                <label>Text Author
+                <input type="text" name="textauthor" class="forminput" placeholder="Name of the person that wrote the lyrics"></label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="large-12 columns">
+              <label>Lyrics in original language
+                <textarea name="lyrics" placeholder="Lyrics here! Make sure to separate lines reasonably."></textarea>
+              </label>
+            </div>
+        </div>
+    </fieldset>
+    
+    <fieldset>
+        <legend>Translations (optional):</legend>
+        
+        <div class="row">
+            <div class="small-4-columns">
+                <label>Language to translate
+                    <select name="translang">
+                        <% 
+                        var langs = ['English','Italian','German','French','Russian','Norwegian','Spanish','Czech','Other'];
+                        for (var l in langs) {
+                        %>
+                            <option value=<%=langs[l]%>><%=langs[l]%></option>
+                        <% } %>
+                    </select>
+                </label>
+            </div>
+            <div class="small-3-columns">
+                <label>Translation Source
+                <input type="text" name="creditstrans" class="forminput" placeholder="Cite your source with a URL, book title, etc."></label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="large-12 columns">
+              <label>Translation Lyrics
+                <textarea name="translyrics" class="forminput" placeholder="Translation \n here!"></textarea>
+              </label>
+            </div>
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend> Recording-specific information: </legend>
+        <div class="row">
+            <div class="large-6-columns">
+                <label>Performers:
+                    <input type="text" name="performers" class="forminput" placeholder="Separate names with semicolons, ex. Luciano Pavarotti; Joan Sutherland">
+                </label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="small-3-columns">
+                    <label>Link Type</label>
+                    <% 
+                    var types = ['YouTube','Other'];
+                    for (var t in types) {
+                    %>
+                        <label><%=types[t]%><input type="radio" name="type" class="forminput" value=<%=types[t]%> id="type<%=types[t]%>"></label>
+                    <% } %>
+                </div>
+            </div>
+            <div class="large-6-columns">
+                <label>Embed ID:
+                    <input type="text" name="url" class="forminput" placeholder="Code used to share YouTube link"/>
+                </label>
+            </div>
+        </div>
+        <!--<input type="file" value = "Upload">-->
+
+        <div class="row">
+            <div class="large-12 columns">
+              <label>Timings for each line
+                <textarea name="times" class="forminput" placeholder="Timings here (alpha)"></textarea>
+              </label>
+        </div>
+
+    </fieldset>
+    <input type="submit" value="Submit">
+    </form>
+<% include partials/bodyscripts %> 
+</body>
+
+<% include partials/footer %> 
+
+</html>
+<!--
+{
+    title: "O mio babbino caro",
+    songtype: "Aria",
+    composer: {
+        first: "Giacomo",
+        middle: "",
+        last: "Puccini"
+    },
+    date: 1918,
+    work: "Gianni Schicchi",
+    genre: "Opera",
+    language: "Italian",
+    lyrics: ["O mio babbino caro","Mi piace, e bello, bello", "Vo andare in Porta Rossa"],
+    // TODO 2x check structure of translations?
+    translations: [{
+        language: "English",
+        lyrics: ["Oh my father dear", "He pleases me, he's beautiful, beautiful", "I want to go to Porta Rossa"]
+    }],
+    recordings: [{
+        performers: ["MIDI"],
+        filename: "data/omio.mid",
+        times: [13, 19, 26]
+    }],
+    credits: "http://www.aria-database.com/search.php?sid=5367176bbaacc19fe14f696aa0f49dc2&X=2&individualAria=338",
+}
+-->

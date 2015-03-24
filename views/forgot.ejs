@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<% include partials/head %>
+</head>
+
+<body>
+<div class="content">
+	<form action="/forgot" method="post">
+		<fieldset>
+			<legend>Forgot password</legend>
+			<div class="row">
+				<div class="large-12 columns">
+					<div class="row collapse">
+						<div class="small-1 columns">
+			        		<span class="prefix">E-mail:</span>
+			        	</div>
+						<div class="small-9 columns">
+							<input type="text" class="forminput" name="email" placeholder="xyz@example.com" autofocus/>
+				        </div>
+						<div class="small-2 columns">
+							<input type="submit" class="button postfix" value="Reset Password">
+						</div>
+					</div>
+				</div>
+			</div>
+		</fieldset>
+	</form>
+<% include partials/bodyscripts %> 
+</div>
+</body>
+
+<% include partials/footer %> 
+</html>

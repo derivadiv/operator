@@ -1,0 +1,81 @@
+<div class="content">
+    <h4>Song Identifiers</h4> 
+    <p>You may want to check if the song is already in our database by searching for it on our homepage.</p>    
+    <form action="/uploadsongids" method="post" data-abide>
+        <fieldset>
+        <legend>Song Information</legend>
+        <div class="row">
+            <div class="large-10 columns">
+                <label>Song Title <small>required</small></label>
+                <input type="text" name="title" class="forminput" placeholder="Type title of song or aria here, ex. O mio babbino caro" required>
+                <small class="error">Song title is required.</small>
+            </div>
+            <div class="large-10 columns">
+                  <label>Type of Song:   </label>
+                  <% 
+                    var songtypes = ['Aria','Art Song','Recitative','Duet','Ensemble','Other'];
+                    for (var s in songtypes) {
+                    %>
+                    <input type="radio" name="songtype" class="forminput" value=<%=songtypes[s]%> id="songtype<%=songtypes[s]%>"><label for="songtype<%=songtypes[s]%>"><%=songtypes[s]%></label>
+                    <% } %>
+            </div>          
+        </div>
+        </fieldset>
+
+        <fieldset>
+        <legend>Composer Name</legend>
+        <div class="row">
+            <div class="small-8 columns">
+                <label>First Name <small>required</small>
+                    <input type="text" name="composerfirst" class="forminput"  required pattern="[a-zA-Z]+">
+                </label>
+                <small class="error">Composer first name is required and can only have letters in it.</small>
+            </div>
+            <div class="small-2 columns">
+                <label>Middle
+                    <input type="text" name="composermiddle" class="forminput">
+                </label>    
+            </div>
+            <div class="small-8 columns">
+                <label>Last Name <small>required</small>
+                    <input type="text" name="composerlast" class="forminput" required pattern="[a-zA-Z]+">
+                </label>    
+                <small class="error">Composer last name is required and can only have letters in it.</small>
+            </div>
+            <div class="small-2 columns">
+                <label>Suffix
+                    <input type="text" name="composersuffix" class="forminput" placeholder="ex. Jr., II">
+                </label>
+            </div>
+        </div>
+        </fieldset>
+
+        <fieldset>
+        <legend>Work that the song is from</legend>
+        <div class="row">
+            <div class="large-6-columns">
+                <label>Work Title <small>required</small></label>
+                <input type="text" name="work" class="forminput" placeholder="ex. Opera title, or title of song collection">
+                <small class="error">Song title is required.</small>
+            </div>
+            <div class="small-2-columns">
+                <label>Year composed
+                <input type="text" name="date" class="forminput" placeholder="YYYY format" pattern="\d\d\d\d">
+                </label>
+                <small class="error">If entered, year composed must have four digits.</small>
+            </div>
+            <div class="small-2-columns">
+                <label>Genre:</label> 
+                <% 
+                var genres = ['Opera','Operetta','Oratorio','Song cycle','Collection','Other'];
+                for (var g in genres) {
+                %>
+                    <input type="radio" name="genre" class="forminput" value=<%=genres[g]%> id="genre<%=genres[g]%>"><label for="genre<%=genres[g]%>"><%=genres[g]%></label>
+                <% } %>
+                
+            </div>
+        </div>
+        </fieldset>
+        <button type="submit">Save and continue</button>
+    </form>
+</div>

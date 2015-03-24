@@ -1,0 +1,18 @@
+<h2> Multiple results found. </h2>
+<p> Choose from the songs below, or try another search above. </p>
+
+<ol type="i">
+<% for (var m=0; m<matchessong.length; m++) { %>
+	<li> 
+	<%
+	var url = "/selectmatch?songid="+matchessong[m]._id;
+	%>
+		<a href=<%=url%> >
+			<strong><%=matchessong[m].title%></strong> (<%=matchessong[m].work%>) by <i><%=matchessong[m].composer%></i>.
+		</a>
+	</li>
+<% } %>
+</ol>
+
+<p>Not finding what you're looking for? Log in or make a new account to start contributing to the Operator database.</p>
+

@@ -1,0 +1,22 @@
+<%
+var username = 'User';
+if (user.local.email) { 
+	username = user.local.email;
+} else if (user.facebook.token) {
+	username = user.facebook.name;
+} else if (user.twitter.token) {
+	username = user.twitter.username;
+} else if (user.google.token) {
+	username = user.google.name;
+} 
+%>
+<li><a>Welcome <b><i>Bach!</i></b> </a></li>
+<li class="has-dropdown">
+	<a href="#"><b><%=username%></b></a>
+<ul class="dropdown">
+	<li class="active"><a href="/profile">Profile (PlayLiszts)</a></li>
+	<li class="active"><a href="/upload">Upload a song</a></li>
+	<li class="active"><a href="/uploadsteps">Stepwise upload (beta)</a></li>
+	<li class="active"><a href="/logout">Bow out (log off)</a></li>
+</ul>
+</li>

@@ -1,0 +1,152 @@
+<html>
+<head><% include partials/head %></head>
+
+<header>
+	<nav class="top-bar" data-topbar role="navigation">
+		<ul class = "title-area">
+			<li class="name">
+				<h1><a href="/"><span class="emph">Opera</span>tor</a></h1>
+			</li>
+			<li class="toggle-topbar menu-icon"<a href="#"><span>Menu</span></a></li>
+		</ul>
+		<!--Right Nav of top bar-->
+		<section class = "top-bar-section">
+			<ul class = "right">		
+				<% include partials/headerauth %>
+			</ul>
+		</section>
+	</nav>
+</header>
+
+<div class="background-container2">
+<body>
+<div class="content">
+
+	<%
+	var username = 'Undefined User';
+	if (user.local.email) { 
+		username = user.local.email;
+	} else if (user.facebook.token) {
+		username = user.facebook.name;
+	} else if (user.twitter.token) {
+		username = user.twitter.username;
+	} else if (user.google.token) {
+		username = user.google.name;
+	} 
+	var pub = false;
+	if (typeof user.public != 'undefined'){
+		pub = user.public;
+	}
+	%>
+	<h1> Profile for <%=username %> </h1>
+
+	<p>
+		<b>Handel</b> your settings here. 
+	</p> 
+	<label>Default Translation Language
+	<select name="translang" id="translang"> 
+	<%
+	var langs = ['Italian','German','French','English','Russian','Norwegian','Spanish','Czech','Other'];
+	var t = 'English';
+	if (typeof user.translang != 'undefined'){
+		t = user.translang;
+	}
+	for (var l=0; l<langs.length; l++) { %>
+		<option value=<%=langs[l]%> <%if (langs[l]==t){%>selected<%}%>> <%=langs[l]%> </option>
+	<%
+	}
+	%>
+	</select></label>
+
+	<!--<label>View approved selections only<input type="checkbox" checked></label>-->
+	<span id="insert">
+		<% if (typeof playsong !=='undefined') { %>
+			<% include partials/play %>
+		<% } %>
+	</span>
+
+	<% if (typeof user.playlists=='undefined' || user.playlists.length==0) { %>
+		Want to make a new playLiszt? Start by searching for songs, then click 'add to playLiszt' and type in the desired name of your playLiszt. 
+	<%} else { %>
+		<h5>Your play<b>Liszt</b>s: </h5>
+		<ul class="tabs" id="playtabs" data-tab>
+			<% for (var p in user.playlists) { %>
+			  <li class="tab-title"><a href="#panel<%=p%>"><%=p%></a>
+			  	<div class="hide" id=<%=p%> style="display:none"> <%=JSON.stringify(user.playlists[p])%> </div>
+				</li>
+			<% } %>
+		</ul>
+		<div class="tabs-content" id="bigcontainer">
+			<% for (var p in user.playlists) { %>
+			  <div class="content" id="panel<%=p%>">
+			  	<table id="table">
+			  		<tr>
+			  			<th>Title</th><th>Work</th><th>Composer</th><th>Performers</th>
+			  		</tr>
+			  		<%
+					var curPlaylist = user.playlists[p];
+					for (var s=0; s<curPlaylist.length; s++){
+						if (curPlaylist[s] && curPlaylist[s].song){
+							var song = curPlaylist[s].song;
+							if (!curPlaylist[s].recIndex || !curPlaylist[s].recIndex >= song.recordings.length){
+								curPlaylist[s].recIndex = 0;
+							}
+							var rec = song.recordings[curPlaylist[s].recIndex];%>
+							<tr>
+								<td><%=song.title%></td><td><%=song.work%></td><td><%=song.composer%></td><td><%=rec.performers.join(', ')%></td>
+							</tr>
+					<%		}
+					} %>
+			  	</table>
+				<button value="play" id="playbutton">Play</button>
+			  </div>
+			<% } %>
+		</div>
+
+	<% } %>
+	
+	<p> If you're not too <b>Bizet</b>, we'd appreciate your help in making this site a better resource. Add a new recording by clicking <a href="/upload">Upload</a>.</p>
+</div>
+<% include partials/bodyscripts %> 
+</body>
+<% include partials/footer %> 
+<script>
+$("#playbutton")[0].onclick = function() {
+	if (document.getElementsByClassName('tab-title active').length>0){
+		var tab = document.getElementsByClassName('tab-title active')[0];
+		var h = tab.getElementsByClassName("hide")[0];
+		var songs = JSON.parse(h.innerHTML); 
+		var playsong = songs[0].song;
+		playsong.recIndex = songs[0].recIndex; 
+		console.log(playsong);
+		jQuery.ajax({
+			url: 'play2',
+			dataType: 'html',
+			data: {
+				'playsong': playsong
+			},
+			type: 'GET'
+		}).done(function(responseHTML){
+			console.log(responseHTML);
+			$('#insert').html(responseHTML);
+		})
+
+		//var html = new EJS({url: 'partials/play.ejs'}).render({"playsong": playsong});
+		//$('#insert').innerHTML = html;
+		//$('#insert').load("play", { "playsong": playsong } );
+	}
+};
+//console.log($("#playbutton")[0].onclick)
+</script> 
+
+<script>
+	$("#panel<%=p%> table").css('height', (
+    $("#bigcontainer").height() -
+    //$('#preTableContainer').outerHeight(true) -
+    ($("#panel<%=p%> table").outerHeight(true) -
+     $("#panel<%=p%> table").height())
+));
+</script>
+
+</div>
+</html>

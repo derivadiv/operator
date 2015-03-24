@@ -1,0 +1,17 @@
+<html>
+<div class="content">
+    <form action="/uploadtimes" method="post" data-abide>
+        <h4>Timing lyrics and translations with this recording:</h4>
+        <div class="row">
+            <div class="large-12 columns">
+              <label>Timings for each line
+                <textarea name="times" class="forminput" placeholder="Timings here (TODO)"></textarea>
+              </label>
+        </div>
+        <input type="hidden" name="modelid" class="forminput" value=<%=modeldata._id%>>
+        <input type="hidden" name="recIndex" class="forminput" value=<%=recIndex%>>
+        <button type="submit">Finish</button>
+        <p> If you got this far, you are awesome! Thanks for being a Wolff of a contributor. :) </p>
+    </form>
+</div>
+</html>

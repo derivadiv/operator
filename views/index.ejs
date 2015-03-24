@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<% include partials/head %>
+</head>
+
+<nav class="top-bar" data-topbar role="navigation" data-options="is_hover: true">
+	<ul class = "title-area">
+		<li class="name">
+			<h1><a href="#"><span class="emph">Opera</span>tor</a></h1>
+		</li>
+		<li class="toggle-topbar menu-icon"<a href="#"><span>Menu</span></a></li>
+	</ul>
+	<!--Right Nav of top bar-->
+	<section class = "top-bar-section">
+		<ul class = "right">
+			<% if (typeof user !=='undefined') { %>
+				<% include partials/headerauth %>
+			<% } else { %>
+				<% include partials/header %>
+			<% } %>
+		</ul>
+	</section>
+</nav>
+
+<div class="background-container">
+<body>
+<div class="content">
+	<form id="searchform" action="/search" method="get"> 
+		<div class="row">
+			<div class="small-3 columns">
+				<span data-tooltip aria-haspopup="true" class="has-tip" title="Type the name of a composer, song title, or work keyword. ex. Puccini, or Brindisi, or La Traviata">
+				<label for="songsearch" class="right">take me bach to</label>
+				</span>
+			</div>
+			<div class="large-9 columns">
+				<input type="text" class="search-round" id="songsearch" name="songsearch" placeholder="Search for song">
+			</div>		
+		</div>
+		<% if (typeof message !=='undefined') { %>
+		<%=	message %>
+		<% } %>
+
+	</form>
+
+	<% include partials/bodyscripts %> 
+
+	<span id="topmatches">
+		<% if (typeof matchessong !=='undefined') { %>
+		<% include partials/matches %>
+		<% } %>
+	</span>
+
+	<span id="playing">
+		<% if (typeof playsong !=='undefined') { %>
+			<% include partials/play %>
+		<% } %>
+	</span>
+
+</div>
+<% include partials/footer %> 
+
+</body>
+
+</div>
+</html>

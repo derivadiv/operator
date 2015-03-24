@@ -1,0 +1,35 @@
+<div class="content">
+    <h4>Translations</h4>  
+    <form action="/uploadtrans" method="post">
+        <div class="row">
+            <div class="small-4-columns">
+                <label>Language to translate
+                    <select name="translang">
+                        <% 
+                        var langs = ['English','Italian','German','French','Russian','Norwegian','Spanish','Czech','Other'];
+                        for (var l in langs) {
+                        %>
+                            <option value=<%=langs[l]%>><%=langs[l]%></option>
+                        <% } %>
+                    </select>
+                </label>
+            </div>
+            <div class="small-3-columns">
+                <label>Translation Source
+                <input type="text" name="creditstrans" class="forminput" placeholder="Cite your source with a URL, book title, etc."></label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="large-12 columns">
+              <label>Translation Lyrics
+                <textarea name="translyrics" class="forminput" placeholder="Translation \n here!"></textarea>
+              </label>
+            </div>
+        </div>
+        <input type="hidden" name="modelid" class="forminput" value=<%=modeldata._id%>>
+
+        <button type="submit">Save and continue</button>
+    </form>
+    <!--TODO: reasonable skipping ahead to recordings section?-->
+    <a href="/up4">Skip to recordings</button>
+</div>

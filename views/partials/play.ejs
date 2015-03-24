@@ -1,0 +1,244 @@
+<html>
+<h4> 
+	Playing <strong><%=playsong.title%></strong> (<i><%=playsong.work%></i>) by <%=playsong.composer%>
+</h4>
+
+<% 
+var warnings = {
+	recording: true,
+	lyrics: true,
+	translation: true,
+	lyricstranslationmatch: true,
+	times: true
+};
+%>
+
+<script>//IFrame API Code
+var tag = document.createElement('script');
+
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+</script>
+
+	<!--Play with selected recording's filename-->
+<% 
+var times = [];
+var embedid = '';
+if (typeof playsong.recordings !== 'undefined' && playsong.recordings.length>0) {
+	if (typeof playsong.recIndex == 'undefined' || playsong.recIndex >= playsong.recordings.length) {
+		playsong.recIndex=0;
+	}
+	var rec = playsong.recordings[playsong.recIndex];
+	times = rec.times;  
+	if (rec.type=='YouTube' && rec.url) { 
+		embedid = rec.url;
+		var fullurl="https://www.youtube.com/embed/"+embedid+"?autoplay=1&enablejsapi=1&version=3&playerapiid=ytplayer";
+		warnings['recording'] = false;
+		%>
+		<div id="player">
+			<iframe id="ytplayer" type="text/html" width="400" height="390" src=<%=fullurl%> frameborder="0"> </iframe>
+		</div>
+		<script>
+		var player;
+
+		function onYouTubeIframeAPIReady() {
+			player = new YT.Player('player', {
+				videoId: "<%=embedid%>",
+				events: {
+					'onReady': onPlayerReady
+				}
+			});
+		}
+		// code idea thanks to: http://stackoverflow.com/questions/10175367/youtube-api-event-on-a-specified-time
+		var timeupdater = null;
+		function onPlayerReady(event) {
+			// check the current time every .5s (500 ms- may change this interval)
+			var videoTime = 0;
+			function updateTime() {
+				var oldTime = videoTime;
+				if (player && player.getCurrentTime){
+					videoTime = player.getCurrentTime();
+				}
+				if (videoTime !== oldTime) {
+					updateLyrics(videoTime);
+				}
+			}
+			timeupdater = setInterval(updateTime, 500);
+			event.target.playVideo();
+		}
+
+		function updateLyrics(currentSeconds){
+			var sec = Math.floor(currentSeconds);
+			var s = "time="+sec;
+			if (document.getElementById(s)){
+				$("#lyricspanel").animate({ scrollTop: document.getElementById(s).offsetTop-270}, 500);
+			}
+		}
+
+		</script>
+		<% 
+	}
+}
+%>
+
+<%
+var tlang = "english";
+if (typeof user!== 'undefined' && user.translang){
+	tlang = user.translang.toLowerCase();
+}
+var trans = [];
+if (typeof playsong.translations !== 'undefined' && typeof playsong.translations[tlang] !== 'undefined'){ 
+	trans = playsong.translations[tlang]; 
+	if (trans.length > 0){
+		warnings['translation'] = false;
+	}
+} 
+%>
+
+<!-- display lyrics, translation (default English)-->
+<% if (typeof playsong.lyrics !=='undefined') { %>
+	<div class="panel" id="lyricspanel">
+	<% for (var l=0; l<playsong.lyrics.length; l++) { %>
+	  <% if (typeof times !== 'undefined' && l<times.length) { %>
+	  	<a name=<%=times[l]%> id="time=<%=times[l]%>"></a>
+		<%
+			warnings['times'] = false; 
+		} %>
+	  <h5><%=playsong.lyrics[l]%></h5>
+	  <% if (l<trans.length) { %>
+	  	<p><%=trans[l]%></p>
+	<%
+		}
+	}
+	if (playsong.lyrics.length > 0){
+		warnings['lyrics'] = false;
+	}
+	if (playsong.lyrics.length-trans.length < 2){
+		warnings['lyricstranslationmatch'] = false;
+	}
+}
+%>
+	</div>
+
+
+<div class="panel-right" id="songmenu">
+	<div class="row">
+	<!--If user is signed in, they can add a song to a playlist-->
+	<% if (typeof user=='undefined') { %>
+		To add this to your playLiszt, sign in or create a new account above. 
+	<% } else { %>
+		<p>Select an existing playLiszt, or enter a new name to get started. </p>
+		<form action="/playlistupdate" method="post">
+			<input type="hidden" name="songid" value=<%=playsong._id%>>
+			<input type="hidden" name="recIndex" value=<%=playsong.recIndex%>>
+			<div class="large-12 columns">
+				<div class="row collapse">
+			        <div class="small-4 columns">
+		        		<input type="submit" class="button prefix" value="Add song to playLiszt:">
+					</div>
+			        <div class="small-8 columns">
+			          	<select name="playlist" id="playlist">
+							<% 
+							if (typeof user.playlists == 'undefined') {
+								user.playlists = {};
+							}
+							for (var p in user.playlists) { 
+							%>
+								<option value=<%=p%>><%=p%></option>
+							<%
+							}
+							%>
+						</select>
+			        </div>
+				</div>
+			</div>
+		</form>
+		<form action="/addplaylist" method="post" id="addplaylist">
+			<div class="large-12 columns">
+				<div class="row collapse">
+			        <div class="small-4 columns">
+		        		<button class="button postfix" action="addlist()">New playLiszt:</button>
+					</div>
+			        <div class="small-8 columns">
+							<input name="newlist" id="newlist" type="text" placeholder="Name">
+							</select>
+			        </div>
+				</div>
+			</div>
+		</form>
+		<form action="/upload" method="get" id="fixsong">
+			<div class="large-12 columns">
+				<div class="row collapse">
+			        <div class="large-5 columns">
+		        		Forgive me, <i>Maestro</i>, but something's wrong with the: 
+					</div>
+					<div class="small-4 columns">
+			          	<select name="num" id="num">
+							<option value=2>Lyrics</option>
+							<option value=3>Translation</option>
+							<option value=4>Recordings</option>
+							<option value=5>Timing</option>
+						</select>
+			        </div>
+					<div class="small-3 columns">
+			          	<button class="button postfix" id="fixbutton">Fix</button>
+			        </div>
+				</div>
+			</div>
+			<input type="hidden" name="modeldata" value=<%=playsong%>>
+			<input type="hidden" name="recIndex" value=<%=playsong.recIndex%>>
+		</form>
+	<% } %>
+	</div>
+	<div id="form_output"></div>
+	<div class="row">
+	<%
+	var warningmessages = {
+		'recording': 'Missing a YouTube recording link. ',
+		'lyrics': 'Missing lyrics. ',
+		'translation': 'Missing translations in the default language. ',
+		'lyricstranslationmatch': 'Translations and lyrics don\'t match up. ',
+		'times': 'Track has no timing data.'
+	};
+	for (var att in warnings){
+		if (warnings[att]){ %>
+			<p> Warning: <%=warningmessages[att]%></p>
+		<%}
+	}
+	%>
+	</div>
+
+</div>
+
+</html>
+
+
+<script>
+$(document).ready(function () {
+    $('#addplaylist').on('submit', function(e) {
+        e.preventDefault();
+        var formdata = $(this).serialize();
+        $.ajax({
+            url : $(this).attr('action') || window.location.pathname,
+            type: "POST",
+            data: formdata,
+            success: function (data) {
+            	console.log(data);
+		        $("#playlist").prepend("<option value"+formdata[newlist]+">"+formdata[newlist]+"</option>");
+                $("#form_output").html(data);
+            },
+            error: function (jXHR, textStatus, errorThrown) {
+                alert(errorThrown);
+            }
+        });
+    });
+
+    $("fixbutton").on("click", function(e){
+    	e.preventDefault();
+    	var s = document.getElementById("num");
+    	var num = s.options[s.selectedIndex].value
+    	$('#fixsong').attr('action', "/upload&"+s).submit();
+	});
+});
+</script>

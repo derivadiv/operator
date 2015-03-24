@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<% include partials/head %>
+</head>
+
+<body>
+<div class="content">
+	<form method="post" data-abide>
+		<fieldset>
+			<legend>Reset password</legend>
+			<div class="row">
+				<div class="large-6 columns">
+					<label>New password:
+						<input type="password" id="password" class="forminput" name="password" autofocus/>
+					</label>
+				</div>
+				<div class="large-6 columns">
+					<label>Confirm password:
+						<input type="password" class="forminput" name="confirm" data-equalto="password">
+					</label>
+					<small class="error">The password did not match</small>
+				</div>
+				<input type="submit" class="button" value="Update Password">
+			</div>
+		</fieldset>
+	</form>
+<% include partials/bodyscripts %> 
+</div>
+</body>
+
+<% include partials/footer %> 
+</html>

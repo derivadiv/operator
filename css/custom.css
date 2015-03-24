@@ -1,0 +1,114 @@
+form{
+	width:95%;
+	margin:0 auto;
+}
+
+form .row{
+	width: 90%;
+}
+
+.search-round {
+	padding:6px 25px 6px 30px;
+	margin:10px;
+	text-indent: 30px;
+	background: url('flaticon/magnifier13.png');
+	background-color: #eeeeee;
+	background-position: 5px 5px;
+	background-size: 25px;
+	background-repeat: no-repeat;
+	border-radius:15px;
+	-moz-border-radius:15px;
+	-webkit-border-radius:15px;
+}
+
+.content {
+	margin: 10px;
+	margin-left: 20px;
+}
+
+.background-container {
+	background-image: url('../img/steinway.jpg');
+	width: 100%;
+	height: 100%;
+	margin-top: -10px;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.background-container2 {
+	background-image: url('../img/score2.jpg');
+	width: 100%;
+	height: 100%;
+	margin-top: -10px;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+
+
+.tabs .tab-title {
+	border: 1px solid black;
+}
+
+
+body .content select {
+	width: 100px;
+}
+
+.content .content {
+	border: 1px black;
+}
+
+.top-bar .top-bar-section ul li:not(.has-form) > a:not(.button) {
+	background: #9961bd;
+}
+
+.top-bar-section ul li.active:not(.has-form) > a:not(.button):hover {
+	background: #745b95;
+}
+
+
+button .button{
+	background-color: #745b95;
+}
+
+input .button{
+	color: #745b95;
+}
+
+.top-bar ul li h1 a {
+	font-size:33px;
+}
+.top-bar ul li h1 a .emph{
+	font-size:34px;
+	color: #88bfef;
+	font-weight:bold;
+}
+
+footer {
+	margin-top: 50px;
+	font-size: 0.5rem;
+	float: left;
+}
+
+.panel{
+	width: 35%;
+	height: 360px;
+	overflow: scroll;
+	min-width: 5%;
+	float: left;
+	margin-bottom: 10px;
+}
+
+iframe{
+	float: left;
+}
+
+.panel-right{
+	width: 30%;
+	height: 360px;
+	min-width: 5%;
+	float: right;
+	margin-bottom: 10px;
+}
+

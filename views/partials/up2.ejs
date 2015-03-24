@@ -1,0 +1,42 @@
+<html>
+<div class="content">
+    <h4>Song Lyrics (source language)</h4>  
+    <form action="/uploadlyrics" method="post" data-abide>
+        <div class="row">
+            <div class="small-4-columns">
+                <label>Original Language: 
+                    <select name="language">
+                        <% 
+                        var langs = ['Italian','German','French','English','Russian','Norwegian','Spanish','Czech','Other'];
+                        for (var l in langs) {
+                        %>
+                            <option value=<%=langs[l]%>><%=langs[l]%></option>
+                        <% } %>
+                    </select>
+                </label>
+            </div>
+            <div class="small-2-columns">
+                <label>Lyrics Source
+                <input type="text" name="creditslyrics" class="forminput" placeholder="Cite your source with a URL, book title, etc."></label>
+            </div>
+            <div class="large-2-columns">
+                <label>Text Author
+                <input type="text" name="textauthor" class="forminput" placeholder="Name of the person that wrote the lyrics"></label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="large-12 columns">
+              <label>Lyrics in original language
+                <textarea name="lyrics" placeholder="Lyrics here! Make sure to separate lines reasonably."></textarea>
+              </label>
+            </div>
+        </div>
+        <input type="hidden" name="modelid" class="forminput" value=<%=modeldata._id%>>
+        <%console.log(modeldata);%>
+
+        <button type="submit">Save and continue</button>
+    </form>
+    <!--TODO: reasonable skipping ahead to recordings section?-->
+    <a href="/up4">Skip to recordings</button>
+</div>
+</html>
