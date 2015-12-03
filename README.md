@@ -1,3 +1,5 @@
+WebApp to play opera songs and display lyrics alongside translations. One of my earliest projects, so, pardon the code.
+
 Credits:
 6.148 Staff
 Node's various resources
